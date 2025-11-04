@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: bot2-auto-reply
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "npm start"
