@@ -28,8 +28,8 @@ client.once("ready", () => {
   client.user.setPresence({
     activities: [
       {
-        name: "Free Fire tournaments 🏆",
-        type: ActivityType.Playing
+        name: "Tournaments 🏆",
+        type: ActivityType.Managing
       }
     ],
     status: "online"
