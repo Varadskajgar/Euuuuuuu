@@ -1,7 +1,14 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import express from "express";
+import { Client, GatewayIntentBits, ActivityType } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+// 🟢 Create small web server to keep bot alive on Render
+const app = express();
+app.get("/", (req, res) => res.send("Bot is alive ✅"));
+app.listen(3000, () => console.log("🌐 Web server running on port 3000"));
+
+// 🧠 Create Discord client
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -10,13 +17,26 @@ const client = new Client({
   ]
 });
 
-// Bot 1’s Discord ID (not token)
+// ⚙️ Environment variables
 const BOT1_ID = process.env.BOT1_ID;
 
+// 🔔 When bot is ready
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
+
+  // 🎯 Set custom bot status
+  client.user.setPresence({
+    activities: [
+      {
+        name: "Free Fire tournaments 🏆",
+        type: ActivityType.Playing
+      }
+    ],
+    status: "online"
+  });
 });
 
+// 💬 Listen for messages
 client.on("messageCreate", async (message) => {
   // Ignore Bot 2’s own messages
   if (message.author.id === client.user.id) return;
@@ -32,4 +52,5 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+// 🔐 Login the bot
 client.login(process.env.TOKEN);
